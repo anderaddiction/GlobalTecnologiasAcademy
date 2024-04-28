@@ -13,9 +13,15 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $employees = Employee::get();
+            return datatables()->of($employees)
+                ->make(true);
+        }
+
+        return view('employees.index');
     }
 
     /**
@@ -36,7 +42,7 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        Employee::create($request->validated());
+        Employee::create($request->validated() + ['status' => 1]);
         return redirect()->back()->with('success', __('Data stored successfully'));
     }
 
@@ -51,24 +57,34 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
-        //
+        $employee = Employee::find($id);
+        if ($request->ajax()) {
+            return response()->json($id, 200);
+        }
+
+        return view('employees.edit', [
+            'employee' => $employee
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EmployeeRequest $request, Employee $employee)
     {
-        //
+        //dd($request->all());
+        $employee->update($request->validated());
+        return redirect()->back()->with('success', __('Data updated successfully'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return response()->json('Data deleted successfully', 200);
     }
 }

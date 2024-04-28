@@ -4,8 +4,24 @@ const last_name = document.getElementById("last_name");
 const country = document.getElementById("country");
 const email_input = document.getElementById("email");
 const idInput = document.getElementById("id");
+const registerDateHour = document.getElementById("register_date");
+const status = (document.getElementById("status").value = "Activo");
 const domain = "";
 const email = "";
+let time = new Date();
+let currenDate =
+    time.toJSON().slice(0, 10).replace(/-/g, "/") +
+    " " +
+    (time.getHours() < 10 ? "0" : "") +
+    time.getHours() +
+    ":" +
+    (time.getMinutes() < 10 ? "0" : "") +
+    time.getMinutes() +
+    ":" +
+    (time.getSeconds() < 10 ? "0" : "") +
+    time.getSeconds();
+
+registerDateHour.value = currenDate;
 
 country.addEventListener("change", function () {
     createEmail(

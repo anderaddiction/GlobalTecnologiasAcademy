@@ -40,6 +40,9 @@ class EmployeeRequest extends FormRequest
                 'max:300',
                 Rule::unique('employees')->ignore($this->route('employee'))
             ],
+            'fecha_ingreso' => 'required',
+            'area' => 'required',
+            'register_date' => 'required'
         ];
     }
 }

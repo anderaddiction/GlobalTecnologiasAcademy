@@ -20,6 +20,10 @@ return new class extends Migration
             $table->integer('identification_type');
             $table->string('identification')->unique();
             $table->string('email')->unique();
+            $table->string('fecha_ingreso');
+            $table->integer('status')->unsigned();
+            $table->integer('area');
+            $table->string('register_date');
             $table->softDeletes();
             $table->timestamps();
         });
